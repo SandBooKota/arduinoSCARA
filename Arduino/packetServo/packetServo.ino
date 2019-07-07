@@ -44,6 +44,8 @@ void loop() {
     myservo2.write(val[1]*val180_2/180,val[2],false);
     myservo1.wait();
     myservo2.wait();
+
+    Serial.write('I');
   }
   
 }

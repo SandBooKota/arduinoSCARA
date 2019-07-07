@@ -90,7 +90,6 @@ int main(int argc, char *argv[])
 
 	servoWrite(fd,250,0,testSpeed);
 
-
 	coordinateWrite(fd,1,120,testSpeed);
 	
 	coordinateWrite(fd,1,250,testSpeed);
@@ -102,39 +101,33 @@ int servoWrite(int fd,int deg1,int deg2,int sp){
     char buf[256];
     char quiet=0;
     int rc;
-    int max_deg,min_deg;
-    double servoSpeed,waitTime,degServo;
 
 	snprintf(buf, 12, "H%02X%02X%02X", deg1, deg2, sp);
     if( !quiet ) printf("send string:%s\n", buf);
 	rc = serialport_write(fd, buf);
     if(rc==-1) error("error writing");
 
-    if(deg1>deg2){
-    	max_deg=deg1;
-    	min_deg=deg2;
+	char eolchar = '\n';
+    int timeout = 5000;
+
+	while(1){
+		if( fd == -1 ) error("serial port not opened");
+		memset(buf,0,1);
+		serialport_read_until(fd, buf, eolchar, 1, timeout);
+		if( !quiet ) printf("read string:");
+		if(!strcmp(buf, "I")){
+			printf("Reach target\n");
+		break;
+		}
     }
-    else{
-    	max_deg=deg2;
-    	min_deg=deg1;
-    }
 
-    servoSpeed = -0.009524*sp*sp+3.2397*sp+7.372-5;
-    waitTime =  (abs(max_deg-pre_deg)/servoSpeed)*1000000;//[us]
-
-    printf("max_deg:%d[deg] waitTime:%f[sec] speed:%f[deg/sec]\n",max_deg,waitTime/1000000,servoSpeed);
-
-	pre_deg=min_deg;
-
-    usleep(waitTime);
 }
 
 int coordinateWrite(int fd,double x,double y,int sp){
     char buf[256];
     char quiet=0;
     int rc;
-    int max_deg,min_deg;
-    double servoSpeed,waitTime,degServo;
+
     double l1=127,l2=127;
     double A,B,C,D;
     int deg1,deg2;
@@ -159,21 +152,18 @@ int coordinateWrite(int fd,double x,double y,int sp){
 	rc = serialport_write(fd, buf);
     if(rc==-1) error("error writing");
 
-    if(deg1>deg2){
-    	max_deg=deg1;
-    	min_deg=deg2;
+	char eolchar = '\n';
+    int timeout = 5000;
+
+	//目標点到達時、Arduino側から文字”I”が送信
+	while(1){
+		if( fd == -1 ) error("serial port not opened");
+		memset(buf,0,1);
+		serialport_read_until(fd, buf, eolchar, 1, timeout);
+		if( !quiet ) printf("read string:");
+		if(!strcmp(buf, "I")){
+			printf("Reach target\n");
+		break;
+		}
     }
-    else{
-    	max_deg=deg2;
-    	min_deg=deg1;
-    }
-
-    servoSpeed = -0.009524*sp*sp+3.2397*sp+7.372-5;
-    waitTime =  (abs(max_deg-pre_deg)/servoSpeed)*1000000;//[us]
-
-    printf("max_deg:%d[deg] waitTime:%f[sec] speed:%f[deg/sec]\n",max_deg,waitTime/1000000,servoSpeed);
-
-	pre_deg=min_deg;
-
-    usleep(waitTime);
 }
