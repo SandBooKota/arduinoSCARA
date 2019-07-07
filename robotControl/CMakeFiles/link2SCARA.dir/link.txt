@@ -1,0 +1,1 @@
+/usr/bin/cc   -rdynamic CMakeFiles/link2SCARA.dir/link2SCARA.c.o CMakeFiles/link2SCARA.dir/arduino-serial-lib.c.o  -o link2SCARA -lm 
