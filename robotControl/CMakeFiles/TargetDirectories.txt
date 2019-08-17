@@ -1,3 +1,0 @@
-/home/kota/git/arduinoSCARA/robotControl/CMakeFiles/edit_cache.dir
-/home/kota/git/arduinoSCARA/robotControl/CMakeFiles/rebuild_cache.dir
-/home/kota/git/arduinoSCARA/robotControl/CMakeFiles/link2SCARA.dir

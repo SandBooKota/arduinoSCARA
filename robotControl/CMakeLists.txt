@@ -2,6 +2,6 @@ cmake_minimum_required(VERSION 2.6)
 
 project(arduinoSCARA)
 
-add_executable(link2SCARA link2SCARA.c arduino-serial-lib.c)
+add_executable(axis4SCARA axis4SCARA.c arduino-serial-lib.c)
 
-target_link_libraries(link2SCARA m)
+target_link_libraries(axis4SCARA m)
