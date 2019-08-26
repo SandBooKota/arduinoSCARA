@@ -35,7 +35,7 @@ void loop() {
         }
       }
       
-      for(byte i = 0; i < 7; i++;){
+      for(byte i = 0; i < 7; i++){
         buf[i*2] = buf[i*2] << 4;
         val[i] = buf[i*2] | buf[i*2+1];
       }

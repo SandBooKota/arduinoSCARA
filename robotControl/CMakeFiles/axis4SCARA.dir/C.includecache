@@ -1,0 +1,46 @@
+#IncludeRegexLine: ^[ 	]*[#%][ 	]*(include|import)[ 	]*[<"]([^">]+)([">])
+
+#IncludeRegexScan: ^.*$
+
+#IncludeRegexComplain: ^$
+
+#IncludeRegexTransform: 
+
+/home/kota/git/arduinoSCARA/robotControl/arduino-serial-lib.c
+arduino-serial-lib.h
+/home/kota/git/arduinoSCARA/robotControl/arduino-serial-lib.h
+stdio.h
+-
+unistd.h
+-
+fcntl.h
+-
+errno.h
+-
+termios.h
+-
+string.h
+-
+sys/ioctl.h
+-
+
+/home/kota/git/arduinoSCARA/robotControl/arduino-serial-lib.h
+stdint.h
+-
+
+/home/kota/git/arduinoSCARA/robotControl/axis4SCARA.c
+stdio.h
+-
+stdlib.h
+-
+math.h
+-
+string.h
+-
+unistd.h
+-
+getopt.h
+-
+arduino-serial-lib.h
+/home/kota/git/arduinoSCARA/robotControl/arduino-serial-lib.h
+
