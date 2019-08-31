@@ -29,9 +29,6 @@ int main(int argc, char *argv[])
   int timeout = 5000;
   int rc,n;
 
-  double x,y;
-
-
   fd = serialport_init(serialport, baudrate);
   if( fd==-1 ) error("couldn't open port");
   if(!quiet) printf("opened port %s\n",serialport);
@@ -39,13 +36,17 @@ int main(int argc, char *argv[])
 
   if( fd == -1 ) error("serial port not opened");
 
-  int testSpeed = 10;
+  int servoSpeed = 50;
 
   //servoWrite(fd,127,126,123,0,0,testSpeed);
 
-  coordinateWrite(fd,0,150,90,0,testSpeed);
+  int x,y;
 
-  coordinateWrite(fd,0,330,90,0,testSpeed);
+  y=190;
+  for(int i = 0; i <= 20; i++){
+    coordinateWrite(fd,1,y,0,90,servoSpeed);
+    y += 10;
+  }
 
   exit(EXIT_SUCCESS);
 } // end main
@@ -86,7 +87,7 @@ int coordinateWrite(int fd,double x,double y,double z,double deg,int sp){
   double A,B,C,D;
   int deg1,deg2,deg3;
   double th1,th2,th3;
-	double theta = deg * 180/PI;
+	double theta = deg * PI/180;
 
 	int z1=0,z2=0,sum=0;
 
@@ -101,13 +102,15 @@ int coordinateWrite(int fd,double x,double y,double z,double deg,int sp){
 
 	th3 = theta - th1 - th2;
 
+  printf("deg1:%.4f deg2:%.4f deg3:%.4f\n",th1*180/PI,th2*180/PI,th3*180/PI);
+
   deg1 = 215 - th1*180/PI + offset1;
   deg2 = 125 - th2*180/PI + offset2;
-  deg3 = 35  - th3*180/PI + offset3;
-  printf("deg1:%d deg2:%d deg3:%d\n",deg1,deg2,deg3);
+  deg3 = 125  - th3*180/PI + offset3;
+  //printf("deg1:%d deg2:%d deg3:%d\n",deg1,deg2,deg3);
 
-  if(deg1 > 250 || deg2 > 250 || deg3 > 250 || deg1 < 0 || deg2 < 0 || deg3 < 0
-  ||  sqrt(pow(x,2)+pow(y,2)) > 336){
+  if(deg1 >= 250 || deg2 >= 250 || deg3 >= 250 || deg1 <= 0 || deg2 <= 0 || deg3 <= 0
+  ||  sqrt(pow(x,2)+pow(y,2)) >= 376){
     printf("Limit over\n");
   }
   else{

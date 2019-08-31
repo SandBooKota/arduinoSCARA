@@ -5,7 +5,7 @@ import numpy as np
 fig = plt.figure()
 
 x = 1
-y = 200
+y = 150
 
 l1 = 168
 l2 = 168
@@ -23,6 +23,11 @@ th2 = math.atan2(+math.sqrt(A*A+B*B-C*C), C) - math.atan2(-math.sqrt(A*A+B*B-D*D
 
 th3 = theta - th1 - th2;
 
+print(A,B,C,D)
+print(math.degrees(th1))
+print(math.degrees(th2))
+print(math.degrees(th3))
+
 x1 = l1 * math.cos(th1)
 y1 = l1 * math.sin(th1)
 
@@ -35,13 +40,9 @@ y3 = y2 + (l3 * math.sin((th1+th2+th3)))
 x0 = [0, x1, x2, x3]
 y0 = [0, y1, y2, y3]
 
-plt.text(x1, y1, x1, verticalalignment='bottom', horizontalalignment='right',color='green', fontsize=8)
-plt.text(x1, y1-0.8, y1,verticalalignment='bottom', horizontalalignment='right',color='green', fontsize=8)
-plt.text(x2, y2, x2,verticalalignment='bottom', horizontalalignment='right',color='green', fontsize=8)
-plt.text(x2, y2-0.8, y2, verticalalignment='bottom', horizontalalignment='right',color='green', fontsize=8)
-plt.text(x3, y3, x3,verticalalignment='bottom', horizontalalignment='right',color='green', fontsize=8)
-plt.text(x3, y3-0.8, y3, verticalalignment='bottom', horizontalalignment='right',color='green', fontsize=8)
-
 plt.plot(x0,y0,"r-")
+
+plt.xlim(-170,170)
+plt.ylim(0,380)
 
 plt.show()
