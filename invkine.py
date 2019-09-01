@@ -4,12 +4,15 @@ import numpy as np
 
 fig = plt.figure()
 
-x = 1
-y = 150
+x = 0
+y = 195
 
 l1 = 168
 l2 = 168
 l3 = 40
+offset1 = 2
+offset2 = 1
+offset3 = -2
 
 theta = math.radians(90)
 
@@ -24,9 +27,9 @@ th2 = math.atan2(+math.sqrt(A*A+B*B-C*C), C) - math.atan2(-math.sqrt(A*A+B*B-D*D
 th3 = theta - th1 - th2;
 
 print(A,B,C,D)
-print(math.degrees(th1))
-print(math.degrees(th2))
-print(math.degrees(th3))
+print(215 - math.degrees(th1) + offset1)
+print(125 - math.degrees(th2) + offset2)
+print(125 - math.degrees(th3) + offset3)
 
 x1 = l1 * math.cos(th1)
 y1 = l1 * math.sin(th1)

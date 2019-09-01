@@ -1,19 +1,24 @@
 #include <VarSpeedServo.h> 
 
+VarSpeedServo myservo0;
 VarSpeedServo myservo1;
 VarSpeedServo myservo2;
-VarSpeedServo myservo3;
 
-const int val180_1=125;
-const int val180_2=130;
-const int val180_3=130;
+const int val180_0 = 125;
+const int val180_1 = 130;
+const int val180_2 = 130;
 //range=250[deg]
 
+int preDeg0, preDeg1, preDeg2;
+
 void setup() {
-  myservo1.attach(9);
-  myservo2.attach(10);
-  myservo3.attach(11);
+  myservo0.attach(9);
+  myservo1.attach(10);
+  myservo2.attach(11);
   Serial.begin(9600);
+  preDeg0 = 190;
+  preDeg1 = 0;
+  preDeg2 = 185; 
 }
 
 
@@ -41,12 +46,22 @@ void loop() {
       }
     }
     
-    myservo1.write(val[0]*val180_1/180,val[5],false);
-    myservo2.write(val[1]*val180_2/180,val[5],false);
-    myservo3.write(val[2]*val180_3/180,val[5],false);
+    int diffDeg0, diffDeg1, diffDeg2, sp0, sp1, sp2;
+    
+    diffDeg0 = val[0] - preDeg0;
+    diffDeg1 = val[1] - preDeg1;
+    diffDeg2 = val[2] - preDeg2;
+    
+    sp0 = abs(diffDeg0/(diffDeg0 + diffDeg1 + diffDeg2)) * val[5];
+    sp1 = abs(diffDeg1/(diffDeg0 + diffDeg1 + diffDeg2)) * val[5];
+    sp2 = abs(diffDeg2/(diffDeg0 + diffDeg1 + diffDeg2)) * val[5];
+    
+    myservo0.write(val[0]*val180_0/180,sp0,false);
+    myservo1.write(val[1]*val180_1/180,sp1,false);
+    myservo2.write(val[2]*val180_2/180,sp2,false);
+    myservo0.wait();
     myservo1.wait();
     myservo2.wait();
-    myservo3.wait();
 
     Serial.write('I');
   }
