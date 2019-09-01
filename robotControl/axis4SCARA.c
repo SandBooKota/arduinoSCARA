@@ -38,15 +38,9 @@ int main(int argc, char *argv[])
 
   int servoSpeed = 50;
 
-  //servoWrite(fd,127,126,123,0,0,testSpeed);
+  coordinateWrite(fd,1,370,0,90,servoSpeed);
 
-  int x,y;
-
-  y=190;
-  for(int i = 0; i <= 20; i++){
-    coordinateWrite(fd,1,y,0,90,servoSpeed);
-    y += 10;
-  }
+  coordinateWrite(fd,120,150,0,90,servoSpeed);
 
   exit(EXIT_SUCCESS);
 } // end main
@@ -102,12 +96,14 @@ int coordinateWrite(int fd,double x,double y,double z,double deg,int sp){
 
 	th3 = theta - th1 - th2;
 
-  printf("deg1:%.4f deg2:%.4f deg3:%.4f\n",th1*180/PI,th2*180/PI,th3*180/PI);
+  //printf("deg1:%.4f deg2:%.4f deg3:%.4f\n",th1*180/PI,th2*180/PI,th3*180/PI);
 
   deg1 = 215 - th1*180/PI + offset1;
   deg2 = 125 - th2*180/PI + offset2;
   deg3 = 125  - th3*180/PI + offset3;
   //printf("deg1:%d deg2:%d deg3:%d\n",deg1,deg2,deg3);
+
+  printf("%d %d %d\n",deg1,deg2,deg3);
 
   if(deg1 >= 250 || deg2 >= 250 || deg3 >= 250 || deg1 <= 0 || deg2 <= 0 || deg3 <= 0
   ||  sqrt(pow(x,2)+pow(y,2)) >= 376){

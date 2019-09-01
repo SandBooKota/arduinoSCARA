@@ -4,8 +4,8 @@ import numpy as np
 
 fig = plt.figure()
 
-x = 0
-y = 195
+x = 120
+y = 150
 
 l1 = 168
 l2 = 168
@@ -46,6 +46,6 @@ y0 = [0, y1, y2, y3]
 plt.plot(x0,y0,"r-")
 
 plt.xlim(-170,170)
-plt.ylim(0,380)
+plt.ylim(-100,380)
 
 plt.show()
