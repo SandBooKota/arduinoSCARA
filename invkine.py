@@ -7,8 +7,8 @@ fig = plt.figure()
 x = 120
 y = 150
 
-l1 = 168
-l2 = 168
+l1 = 147
+l2 = 147
 l3 = 40
 offset1 = 2
 offset2 = 1
