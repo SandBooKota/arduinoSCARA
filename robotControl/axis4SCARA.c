@@ -38,9 +38,9 @@ int main(int argc, char *argv[])
 
   int servoSpeed = 50;
 
-  coordinateWrite(fd,1,370,0,90,servoSpeed);
+  coordinateWrite(fd,1,290,0,0,servoSpeed);
 
-  coordinateWrite(fd,120,150,0,90,servoSpeed);
+  //coordinateWrite(fd,120,150,0,0,servoSpeed);
 
   exit(EXIT_SUCCESS);
 } // end main
@@ -77,7 +77,7 @@ int coordinateWrite(int fd,double x,double y,double z,double deg,int sp){
   char quiet=0;
   int rc;
 
-  double l1=168,l2=168,l3=40;
+  double l1=147,l2=147,l3=40;
   double A,B,C,D;
   int deg1,deg2,deg3;
   double th1,th2,th3;
