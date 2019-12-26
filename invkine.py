@@ -4,8 +4,8 @@ import numpy as np
 
 fig = plt.figure()
 
-x = 120
-y = 150
+x = 147
+y = 187
 
 l1 = 147
 l2 = 147
@@ -26,10 +26,9 @@ th2 = math.atan2(+math.sqrt(A*A+B*B-C*C), C) - math.atan2(-math.sqrt(A*A+B*B-D*D
 
 th3 = theta - th1 - th2;
 
-print(A,B,C,D)
-print(215 - math.degrees(th1) + offset1)
-print(125 - math.degrees(th2) + offset2)
-print(125 - math.degrees(th3) + offset3)
+#print(A,B,C,D)
+print(math.degrees(th1), math.degrees(th2), math.degrees(th3))
+print(215 - math.degrees(th1) + offset1, 125 - math.degrees(th2) + offset2, 125 - math.degrees(th3) + offset3)
 
 x1 = l1 * math.cos(th1)
 y1 = l1 * math.sin(th1)
