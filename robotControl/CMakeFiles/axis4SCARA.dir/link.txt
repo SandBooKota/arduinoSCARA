@@ -1,1 +1,0 @@
-/usr/bin/cc   -rdynamic CMakeFiles/axis4SCARA.dir/axis4SCARA.c.o CMakeFiles/axis4SCARA.dir/arduino-serial-lib.c.o  -o axis4SCARA -lm 
