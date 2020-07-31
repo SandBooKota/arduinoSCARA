@@ -111,71 +111,125 @@ depend:
 .PHONY : depend
 
 #=============================================================================
-# Target rules for targets named axis4SCARA
+# Target rules for targets named arduinoSCARA
 
 # Build rule for target.
-axis4SCARA: cmake_check_build_system
-	$(MAKE) -f CMakeFiles/Makefile2 axis4SCARA
-.PHONY : axis4SCARA
+arduinoSCARA: cmake_check_build_system
+	$(MAKE) -f CMakeFiles/Makefile2 arduinoSCARA
+.PHONY : arduinoSCARA
 
 # fast build rule for target.
-axis4SCARA/fast:
-	$(MAKE) -f CMakeFiles/axis4SCARA.dir/build.make CMakeFiles/axis4SCARA.dir/build
-.PHONY : axis4SCARA/fast
+arduinoSCARA/fast:
+	$(MAKE) -f CMakeFiles/arduinoSCARA.dir/build.make CMakeFiles/arduinoSCARA.dir/build
+.PHONY : arduinoSCARA/fast
 
-arduino-serial-lib.o: arduino-serial-lib.c.o
+RobotCon.o: RobotCon.cpp.o
+
+.PHONY : RobotCon.o
+
+# target to build an object file
+RobotCon.cpp.o:
+	$(MAKE) -f CMakeFiles/arduinoSCARA.dir/build.make CMakeFiles/arduinoSCARA.dir/RobotCon.cpp.o
+.PHONY : RobotCon.cpp.o
+
+RobotCon.i: RobotCon.cpp.i
+
+.PHONY : RobotCon.i
+
+# target to preprocess a source file
+RobotCon.cpp.i:
+	$(MAKE) -f CMakeFiles/arduinoSCARA.dir/build.make CMakeFiles/arduinoSCARA.dir/RobotCon.cpp.i
+.PHONY : RobotCon.cpp.i
+
+RobotCon.s: RobotCon.cpp.s
+
+.PHONY : RobotCon.s
+
+# target to generate assembly for a file
+RobotCon.cpp.s:
+	$(MAKE) -f CMakeFiles/arduinoSCARA.dir/build.make CMakeFiles/arduinoSCARA.dir/RobotCon.cpp.s
+.PHONY : RobotCon.cpp.s
+
+RobotKine.o: RobotKine.cpp.o
+
+.PHONY : RobotKine.o
+
+# target to build an object file
+RobotKine.cpp.o:
+	$(MAKE) -f CMakeFiles/arduinoSCARA.dir/build.make CMakeFiles/arduinoSCARA.dir/RobotKine.cpp.o
+.PHONY : RobotKine.cpp.o
+
+RobotKine.i: RobotKine.cpp.i
+
+.PHONY : RobotKine.i
+
+# target to preprocess a source file
+RobotKine.cpp.i:
+	$(MAKE) -f CMakeFiles/arduinoSCARA.dir/build.make CMakeFiles/arduinoSCARA.dir/RobotKine.cpp.i
+.PHONY : RobotKine.cpp.i
+
+RobotKine.s: RobotKine.cpp.s
+
+.PHONY : RobotKine.s
+
+# target to generate assembly for a file
+RobotKine.cpp.s:
+	$(MAKE) -f CMakeFiles/arduinoSCARA.dir/build.make CMakeFiles/arduinoSCARA.dir/RobotKine.cpp.s
+.PHONY : RobotKine.cpp.s
+
+arduino-serial-lib.o: arduino-serial-lib.cpp.o
 
 .PHONY : arduino-serial-lib.o
 
 # target to build an object file
-arduino-serial-lib.c.o:
-	$(MAKE) -f CMakeFiles/axis4SCARA.dir/build.make CMakeFiles/axis4SCARA.dir/arduino-serial-lib.c.o
-.PHONY : arduino-serial-lib.c.o
+arduino-serial-lib.cpp.o:
+	$(MAKE) -f CMakeFiles/arduinoSCARA.dir/build.make CMakeFiles/arduinoSCARA.dir/arduino-serial-lib.cpp.o
+.PHONY : arduino-serial-lib.cpp.o
 
-arduino-serial-lib.i: arduino-serial-lib.c.i
+arduino-serial-lib.i: arduino-serial-lib.cpp.i
 
 .PHONY : arduino-serial-lib.i
 
 # target to preprocess a source file
-arduino-serial-lib.c.i:
-	$(MAKE) -f CMakeFiles/axis4SCARA.dir/build.make CMakeFiles/axis4SCARA.dir/arduino-serial-lib.c.i
-.PHONY : arduino-serial-lib.c.i
+arduino-serial-lib.cpp.i:
+	$(MAKE) -f CMakeFiles/arduinoSCARA.dir/build.make CMakeFiles/arduinoSCARA.dir/arduino-serial-lib.cpp.i
+.PHONY : arduino-serial-lib.cpp.i
 
-arduino-serial-lib.s: arduino-serial-lib.c.s
+arduino-serial-lib.s: arduino-serial-lib.cpp.s
 
 .PHONY : arduino-serial-lib.s
 
 # target to generate assembly for a file
-arduino-serial-lib.c.s:
-	$(MAKE) -f CMakeFiles/axis4SCARA.dir/build.make CMakeFiles/axis4SCARA.dir/arduino-serial-lib.c.s
-.PHONY : arduino-serial-lib.c.s
+arduino-serial-lib.cpp.s:
+	$(MAKE) -f CMakeFiles/arduinoSCARA.dir/build.make CMakeFiles/arduinoSCARA.dir/arduino-serial-lib.cpp.s
+.PHONY : arduino-serial-lib.cpp.s
 
-axis4SCARA.o: axis4SCARA.c.o
+main.o: main.cpp.o
 
-.PHONY : axis4SCARA.o
+.PHONY : main.o
 
 # target to build an object file
-axis4SCARA.c.o:
-	$(MAKE) -f CMakeFiles/axis4SCARA.dir/build.make CMakeFiles/axis4SCARA.dir/axis4SCARA.c.o
-.PHONY : axis4SCARA.c.o
+main.cpp.o:
+	$(MAKE) -f CMakeFiles/arduinoSCARA.dir/build.make CMakeFiles/arduinoSCARA.dir/main.cpp.o
+.PHONY : main.cpp.o
 
-axis4SCARA.i: axis4SCARA.c.i
+main.i: main.cpp.i
 
-.PHONY : axis4SCARA.i
+.PHONY : main.i
 
 # target to preprocess a source file
-axis4SCARA.c.i:
-	$(MAKE) -f CMakeFiles/axis4SCARA.dir/build.make CMakeFiles/axis4SCARA.dir/axis4SCARA.c.i
-.PHONY : axis4SCARA.c.i
+main.cpp.i:
+	$(MAKE) -f CMakeFiles/arduinoSCARA.dir/build.make CMakeFiles/arduinoSCARA.dir/main.cpp.i
+.PHONY : main.cpp.i
 
-axis4SCARA.s: axis4SCARA.c.s
+main.s: main.cpp.s
 
-.PHONY : axis4SCARA.s
+.PHONY : main.s
 
 # target to generate assembly for a file
-axis4SCARA.c.s:
-	$(MAKE) -f CMakeFiles/axis4SCARA.dir/build.make CMakeFiles/axis4SCARA.dir/axis4SCARA.c.s
-.PHONY : axis4SCARA.c.s
+main.cpp.s:
+	$(MAKE) -f CMakeFiles/arduinoSCARA.dir/build.make CMakeFiles/arduinoSCARA.dir/main.cpp.s
+.PHONY : main.cpp.s
 
 # Help Target
 help:
@@ -184,14 +238,20 @@ help:
 	@echo "... clean"
 	@echo "... depend"
 	@echo "... rebuild_cache"
-	@echo "... axis4SCARA"
+	@echo "... arduinoSCARA"
 	@echo "... edit_cache"
+	@echo "... RobotCon.o"
+	@echo "... RobotCon.i"
+	@echo "... RobotCon.s"
+	@echo "... RobotKine.o"
+	@echo "... RobotKine.i"
+	@echo "... RobotKine.s"
 	@echo "... arduino-serial-lib.o"
 	@echo "... arduino-serial-lib.i"
 	@echo "... arduino-serial-lib.s"
-	@echo "... axis4SCARA.o"
-	@echo "... axis4SCARA.i"
-	@echo "... axis4SCARA.s"
+	@echo "... main.o"
+	@echo "... main.i"
+	@echo "... main.s"
 .PHONY : help
 
 

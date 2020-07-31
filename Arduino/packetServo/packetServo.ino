@@ -1,42 +1,58 @@
 #include <VarSpeedServo.h>
+#include <Stepper.h>
+
+const int val180_0 = 125;
+const int val180_1 = 125;
+const int val180_2 = 125;
 
 VarSpeedServo myservo0;
 VarSpeedServo myservo1;
 VarSpeedServo myservo2;
 
-const int val180_0 = 125;
-const int val180_1 = 130;
-const int val180_2 = 130;
-//range=250[deg]
+const float turnSteps = 400;
+float rpm = 30;
+int value=1;
 
-int preDeg0, preDeg1, preDeg2;
+Stepper myStepper(turnSteps,3,4,5,6);
+Stepper myRevStepper(turnSteps, 5,6,3,4);
+
+int preDeg0, preDeg1, preDeg2,preZ;
 
 void setup() {
-  myservo0.attach(9);
-  myservo1.attach(10);
-  myservo2.attach(11);
+  pinMode(48,INPUT);
   Serial.begin(9600);
-  preDeg0 = 190;
-  preDeg1 = 0;
-  preDeg2 = 185;
+  preDeg0 = 250;//190;
+  preDeg1 = 10;
+  preDeg2 = 150;
+  preZ = 0;
+  myservo0.attach(9);
   myservo0.write(preDeg0*val180_0/180,10,false);
-  myservo1.write(preDeg1*val180_1/180,10,false);
-  myservo2.write(preDeg2*val180_2/180,10,false);
   myservo0.wait();
+  myservo1.attach(10);
+  myservo1.write(preDeg1*val180_1/180,10,false);
   myservo1.wait();
+  myservo2.attach(11); 
+  myservo2.write(preDeg2*val180_2/180,10,false);
   myservo2.wait();
+  myStepper.setSpeed(rpm);
+  myRevStepper.setSpeed(rpm);
+  while(value==1){
+    value = digitalRead(48);
+    myRevStepper.step(1);
+  }
+  myStepper.step(10);
 }
 
 void loop() {
+  int mode = 0;
+  int val[7];
+  int sum;
+  
   if(Serial.available() >= sizeof('H') + sizeof(int)){
-
-    int val[7];
-    int buf[14];
-
+    int buf[15];
     if(Serial.read()=='H'){
       delay(50);
-
-      for (byte i = 0 ; i < 14; i++){
+      for (byte i = 0 ; i < 15; i++){
         buf[i] = Serial.read();
         if(buf[i] >= '0' && buf[i] <= '9'){
           buf[i] = buf[i] - 0x30;
@@ -46,34 +62,65 @@ void loop() {
       }
 
       for(byte i = 0; i < 7; i++){
-        buf[i*2] = buf[i*2] << 4;
-        val[i] = buf[i*2] | buf[i*2+1];
+        buf[i*2+1] = buf[i*2+1] << 4;
+        val[i] = buf[i*2+1] | buf[i*2+2];
       }
     }
-    
-    double diffDeg0, diffDeg1, diffDeg2;
-    int sp0, sp1, sp2;
 
-    diffDeg0 = abs(val[0] - preDeg0);
-    diffDeg1 = abs(val[1] - preDeg1);
-    diffDeg2 = abs(val[2] - preDeg2);
-
-    sp0 = (diffDeg0/(diffDeg0 + diffDeg1 + diffDeg2)) * val[5];
-    sp1 = (diffDeg1/(diffDeg0 + diffDeg1 + diffDeg2)) * val[5];
-    sp2 = (diffDeg2/(diffDeg0 + diffDeg1 + diffDeg2)) * val[5];
-
-    myservo0.write(val[0]*val180_0/180,sp0,false);
-    myservo1.write(val[1]*val180_1/180,sp1,false);
-    myservo2.write(val[2]*val180_2/180,sp2,false);
-    myservo0.wait();
-    myservo1.wait();
-    myservo2.wait();
-
-    preDeg0 = val[0];
-    preDeg1 = val[1];
-    preDeg2 = val[2];
-
+    mode = buf[0];
+  }
+  sum = val[0] + val[1] + val[2] + val[3] + val[4] + val[5];
+  sum = sum & 0xFF;
+  if(sum == val[6]){
+    servoControl(val[0],val[1],val[2],val[5]);
+    zControl(val[3],val[4]);
     Serial.write('I');
   }
+  else{
+    Serial.write('E');
+  }
+  
+}
 
+void servoControl(int deg0,int deg1,int deg2,int sp){
+  
+  int diffDeg0, diffDeg1, diffDeg2, diffDegSum;
+  int sp0, sp1, sp2;
+    
+  diffDeg0 = abs(deg0 - preDeg0);
+  diffDeg1 = abs(deg1 - preDeg1);
+  diffDeg2 = abs(deg2 - preDeg2);
+
+  diffDegSum = diffDeg0 + diffDeg1 + diffDeg2;
+
+  sp0 = (diffDeg0/diffDegSum) * sp;
+  sp1 = (diffDeg1/diffDegSum) * sp;
+  sp2 = (diffDeg2/diffDegSum) * sp;
+
+  myservo0.write(deg0*val180_0/180,sp0,false);
+  myservo1.write(deg1*val180_1/180,sp1,false);
+  myservo2.write(deg2*val180_2/180,sp2,false);
+
+  preDeg0 = deg0;
+  preDeg1 = deg1;
+  preDeg2 = deg2;
+
+  myservo0.wait();
+  myservo1.wait();
+  myservo2.wait();
+}
+
+void zControl(int z1,int z2){
+  int diffZ;
+  float Steps;
+  
+  diffZ = z1 + z2 - preZ;
+  Steps = 25 * abs(diffZ);
+  
+  if(diffZ < 0){
+    myRevStepper.step(Steps);
+  }else{
+    myStepper.step(Steps);
+  }
+  preZ = z1 + z2; 
 }
