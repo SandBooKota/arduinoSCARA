@@ -39,9 +39,9 @@ void setup() {
   myservo2.attach(11); 
   myservo2.write(preDeg2*val180_2/180,10,false);
   myservo2.wait();
-  myservo2.attach(12); 
-  myservo2.write(preDeg3*val180_3/180,10,false);
-  myservo2.wait();
+  myservo3.attach(12); 
+  myservo3.write(preDeg3*val180_3/180,10,false);
+  myservo3.wait();
   
   myStepper.setSpeed(rpm);
   myRevStepper.setSpeed(rpm);
@@ -80,10 +80,14 @@ void loop() {
 
     //sum = val[0] + val[1] + val[2] + val[3] + val[4] + val[5];
     //sum = sum & 0xFF;
-  
-    servoControl(val[0],val[1],val[2],val[3],val[4]);
-    zControl(val[5],val[6]);
-    Serial.write('I'); 
+  }
+
+  switch(mode){
+    case 1:
+      servoControl(val[0],val[1],val[2],val[3],val[4]);
+      zControl(val[5],val[6]);
+      Serial.write('I');
+      break;
   }
 }
 
@@ -97,17 +101,16 @@ void servoControl(int deg0,int deg1,int deg2,int deg3,int sp){
   diffDeg2 = abs(deg2 - preDeg2);
   diffDeg3 = abs(deg3 - preDeg3);
 
-  diffDegSum = diffDeg0 + diffDeg1 + diffDeg2 + diffDeg3;
+  //diffDegSum = diffDeg0 + diffDeg1 + diffDeg2;
 
-  sp0 = (diffDeg0/diffDegSum) * sp;
-  sp1 = (diffDeg1/diffDegSum) * sp;
-  sp2 = (diffDeg2/diffDegSum) * sp;
-  sp3 = (diffDeg3/diffDegSum) * sp;
+  //sp0 = (diffDeg0/diffDegSum) * sp;
+  //sp1 = (diffDeg1/diffDegSum) * sp;
+  //sp2 = (diffDeg2/diffDegSum) * sp;
 
-  myservo0.write(deg0*val180_0/180,sp0,false);
-  myservo1.write(deg1*val180_1/180,sp1,false);
-  myservo2.write(deg2*val180_2/180,sp2,false);
-  myservo3.write(deg3*val180_3/180,sp2,false);
+  myservo0.write(deg0*val180_0/180,sp,false);
+  myservo1.write(deg1*val180_1/180,sp,false);
+  myservo2.write(deg2*val180_2/180,sp,false);
+  myservo3.write(deg3*val180_3/180,sp,false);
 
   preDeg0 = deg0;
   preDeg1 = deg1;
