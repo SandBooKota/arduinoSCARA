@@ -1,7 +1,5 @@
 cmake_minimum_required(VERSION 3.1.0)
-
 project(arduinoSCARA)
-
 add_executable (arduinoSCARA main.cpp
                               arduino-serial-lib.cpp
                               RobotCon.cpp

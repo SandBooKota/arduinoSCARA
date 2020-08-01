@@ -9,9 +9,9 @@
 
 #include "arduino-serial-lib.h"
 #include "RobotCon.h"
+#include "RobotKine.h"
 #include "RobotParam.h"
 #include "CommParam.h"
-#include "RobotKine.h"
 
 int offset1=5,offset2=0,offset3=4;
 
@@ -68,19 +68,14 @@ int CRobotCon::AngleWrite(int mode,int deg1,int deg2,int deg3,int z,int sp){
 int CRobotCon::CoordMove(int mode,double x,double y,double z,double roll,double pitch,int sp){
   int fd = -1;
   char serialport[256] = "/dev/ttyACM0";
+  int baudrate = 9600;
   char quiet=0;
   char eolchar = '\n';
+  int timeout = 5000;
   int rc,n;
   char buf[256];
   int MoveFlag = 0;
   int deg[4], zr[2], sum;
-
-  fd = serialport_init(serialport, SetBAUDRATE);
-  if( fd==-1 ) printf("couldn't open port");
-  if(!quiet) printf(" opened port %s\n",serialport);
-  serialport_flush(fd);
-  if( fd == -1 ) printf("serial port not opened");
-
 
   CRobotKine scaraKine;
 
@@ -97,8 +92,8 @@ int CRobotCon::CoordMove(int mode,double x,double y,double z,double roll,double 
     }
   }
 
-  if(scaraKine.TargetZ[0]+scaraKine.TargetZ[1] > LNEARZ_Max
-  || scaraKine.TargetZ[0]+scaraKine.TargetZ[1] < LNEARZ_Min){
+  if((scaraKine.TargetZ[0]+scaraKine.TargetZ[1]) > LNEARZ_Max
+  || (scaraKine.TargetZ[0]+scaraKine.TargetZ[1]) < LNEARZ_Min){
     printf("Z Linear Limit over\nTarget Z %d[mm]\n",scaraKine.TargetZ[0]+scaraKine.TargetZ[1]);
     MoveFlag = 1;
   }
@@ -108,25 +103,27 @@ int CRobotCon::CoordMove(int mode,double x,double y,double z,double roll,double 
   }
 
   if(MoveFlag == 0){
-    snprintf(buf, 30, "H%01X%02X%02X%02X%02X%02X%02X%02X%02X", mode, deg[0], deg[1], deg[2], deg[3], zr[0], zr[1], sp, sum);
+    fd = serialport_init(serialport, baudrate);
+    if( fd==-1 ) printf("couldn't open port");
+    if(!quiet) printf("opened port %s\n",serialport);
+    serialport_flush(fd);
+    if( fd == -1 ) printf("serial port not opened");
+
+    snprintf(buf, 30, "H%01X%02X%02X%02X%02X%02X%02X%02X", mode, deg[0], deg[1], deg[2], deg[3], sp, zr[0], zr[1]);
     if( !quiet ) printf(" send string:%s\n", buf);
     rc = serialport_write(fd, buf);
     if(rc==-1) printf("error writing");
 
   	//目標点到達：Arduino側から文字”I”が送信
-    //チェックサムエラー：Arduino側から文字”E”が送信
   	while(1){
   		if( fd == -1 ) printf("serial port not opened");
   		memset(buf,0,1);
-  		serialport_read_until(fd, buf, eolchar, 1, SetTIMEOUT);
+  		serialport_read_until(fd, buf, eolchar, 1, timeout);
   		if( !quiet ) printf(" read string:");
   		if(!strcmp(buf, "I")){
   			printf("Reach target\n");
   		break;
   		}
-      else if(!strcmp(buf, "E")){
-        printf("Communication error\n");
-      }
     }
   }
 
